@@ -601,7 +601,6 @@ parameters:
       write: 0x10
     update_interval: 300
     items:
-
       - name: "Active Island"
         platform: switch
         rule: 1
