@@ -1,0 +1,57 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Device is already configured"
+    },
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "invalid_host": "Invalid hostname or IP address",
+      "unknown": "Unexpected error"
+    },
+    "step": {
+      "user": {
+        "title": "Inverter configuration",
+        "data": {
+          "name": "Device name",
+          "inverter_host": "Host or IP address",
+          "inverter_serial": "Device Serial Number",
+          "inverter_port": "Port",
+          "inverter_mb_slave_id": "Modbus Slave ID",
+          "inverter_passthrough": "Solarman protocol passthrough mode",
+          "lookup_file": "The yaml file containing inverter parameter definitions"
+        },
+        "data_description": {
+          "name": "This name will be prefixed to all sensors.",
+          "inverter_host": "The hostname or IP address of the device to connect to.",
+          "inverter_port": "The TCP port."
+        }
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "invalid_host": "Invalid hostname or IP address",
+      "unknown": "Unexpected error"
+    },
+    "step": {
+      "init": {
+        "title": "Inverter configuration",
+        "data": {
+          "name": "Device name",
+          "inverter_host": "Host or IP address",
+          "inverter_serial": "Device Serial Number",
+          "inverter_port": "Port",
+          "inverter_mb_slave_id": "Modbus Slave ID",
+          "inverter_passthrough": "Solarman protocol passthrough mode",
+          "lookup_file": "The yaml file containing inverter parameter definitions"
+        },
+        "data_description": {
+          "name": "This name will be prefixed to all sensors.",
+          "inverter_host": "The hostname or IP address of the device to connect to.",
+          "inverter_port": "The TCP port."
+        }
+      }
+    }
+  }
+}
