@@ -243,50 +243,9 @@ class ParameterParser:
             value //= divide
 
         return value
-    
-    def _read_registers_custom(self, data, definition):
-        value = 0
-
-        for s in definition["sensors"]:
-            if not REQUEST_CODE in s and REQUEST_CODE in definition and (code := definition[REQUEST_CODE]):
-                s[REQUEST_CODE] = code
-            if not "scale" in s and "scale" in definition and (scale := definition["scale"]):
-                s["scale"] = scale
-
-            if (n := (self._read_registers(data, s) if not "signed" in s else self._read_registers_signed(data, s))) is None:
-                return None
-
-            if (validation := get_or_default(s, "validation")) and not self.do_validate(s["registers"], n, validation):
-                if not "default" in validation:
-                    continue
-                n = validation["default"]
-
-            if "multiply" in s and (s_multiply := s["multiply"]):
-                if not REQUEST_CODE in s_multiply and REQUEST_CODE in s and (s_code := s[REQUEST_CODE]):
-                    s_multiply[REQUEST_CODE] = s_code
-                if not "scale" in s_multiply and "scale" in s and (s_scale := s["scale"]):
-                    s_multiply["scale"] = s_scale
-
-                if (c := self._read_registers(data, s_multiply)) is not None:
-                    n *= c
-
-            if not "operator" in s:
-                value += n
-            else:
-                match s["operator"]:
-                    case "subtract":
-                        value -= n
-                    case "multiply":
-                        value *= n
-                    case "divide" if n != 0:
-                        value /= n
-                    case _:
-                        value += n
-
-        return value
 
     def try_parse_unsigned(self, data, definition):
-        if (value := (self._read_registers(data, definition) if not "sensors" in definition else self._read_registers_custom(data, definition))) is None:
+        if (value := (self._read_registers(data, definition))) is None:
             return
 
         if "uint" in definition and value < 0:
@@ -311,7 +270,7 @@ class ParameterParser:
             self._result[key]["value"] = int(value)
 
     def try_parse_signed(self, data, definition):
-        if (value := (self._read_registers_signed(data, definition) if not "sensors" in definition else self._read_registers_custom(data, definition))) is None:
+        if (value := (self._read_registers_signed(data, definition))) is None:
             return
 
         if "inverted" in definition and definition["inverted"]:
