@@ -1,0 +1,90 @@
+import types
+import struct
+
+from datetime import timedelta as td
+
+DOMAIN = "solarman"
+PLATFORMS: list[str] = ["sensor", "binary_sensor", "switch", "number", "select", "time", "datetime", "button"]
+
+IP_BROADCAST = "<broadcast>"
+IP_ANY = "0.0.0.0"
+
+PORT_ANY = 0
+
+COMPONENTS_DIRECTORY = "custom_components"
+
+LOOKUP_DIRECTORY = "inverter_definitions"
+LOOKUP_DIRECTORY_PATH = f"{COMPONENTS_DIRECTORY}/{DOMAIN}/{LOOKUP_DIRECTORY}/"
+
+CONF_SERIAL = "inverter_serial"
+CONF_INVERTER_HOST = "inverter_host"
+CONF_INVERTER_PORT = "inverter_port"
+CONF_MB_SLAVE_ID = "inverter_mb_slave_id"
+CONF_LOOKUP_FILE = "lookup_file"
+
+DEFAULT_NAME = "Afore"
+DEFAULT_INVERTER_PORT = 8899
+DEFAULT_MB_SLAVE_ID = 1
+DEFAULT_LOOKUP_FILE = "afore.yaml"
+
+DEFAULT_REGISTERS_UPDATE_INTERVAL = 60
+DEFAULT_IS_SINGLE_CODE = False
+DEFAULT_REGISTERS_CODE = 0x04
+DEFAULT_REGISTERS_MIN_SPAN = 25
+DEFAULT_REGISTERS_MAX_SIZE = 125
+DEFAULT_DIGITS = 6
+
+STATE_SENSORS = [{"name": "Connection", "artificial": "state", "platform": "binary_sensor"}, {"name": "Update Interval", "artificial": "interval"}]
+
+CONTROL_CODE = types.SimpleNamespace()
+CONTROL_CODE.REQUEST = struct.pack("<H", 0x4510)
+CONTROL_CODE.RESPONSE = struct.pack("<H", 0x1510)
+
+AUTO_RECONNECT = True
+
+TIMINGS_INTERVAL = 5
+TIMINGS_INTERVAL_SCALE = 1
+TIMINGS_UPDATE_INTERVAL = td(seconds = TIMINGS_INTERVAL * TIMINGS_INTERVAL_SCALE)
+TIMINGS_UPDATE_TIMEOUT = TIMINGS_INTERVAL * 6
+TIMINGS_SOCKET_TIMEOUT = TIMINGS_INTERVAL * 4 - 1
+TIMINGS_WAIT_SLEEP = 0.2
+TIMINGS_WAIT_FOR_SLEEP = 1
+
+# Constants also tied to TIMINGS_INTERVAL to ensure maximum synergy
+ACTION_ATTEMPTS = 5
+ACTION_ATTEMPTS_MAX = ACTION_ATTEMPTS * 6
+
+ATTR_FRIENDLY_NAME = "friendly_name"
+
+REQUEST_UPDATE_INTERVAL = "update_interval"
+REQUEST_MIN_SPAN = "min_span"
+REQUEST_MAX_SIZE = "max_size"
+REQUEST_CODE = "code"
+REQUEST_CODE_ALT = "mb_functioncode"
+REQUEST_START = "start"
+REQUEST_END = "end"
+
+CODE = types.SimpleNamespace()
+CODE.READ_COILS = 1
+CODE.READ_DISCRETE_INPUTS = 2
+CODE.READ_HOLDING_REGISTERS = 3
+CODE.READ_INPUT = 4
+CODE.WRITE_SINGLE_COIL = 5
+CODE.WRITE_HOLDING_REGISTER = 6
+CODE.WRITE_MULTIPLE_COILS = 15
+CODE.WRITE_MULTIPLE_HOLDING_REGISTERS = 16
+
+SERVICES_PARAM_DEVICE = "device"
+SERVICES_PARAM_REGISTER = "register"
+SERVICES_PARAM_QUANTITY = "quantity"
+SERVICES_PARAM_VALUE = "value"
+SERVICES_PARAM_VALUES = "values"
+SERVICES_PARAM_WAIT_FOR_ATTEMPTS = "wait_for_attempts"
+
+SERVICE_READ_HOLDING_REGISTERS = "read_holding_registers"
+SERVICE_READ_INPUT_REGISTERS = "read_input_registers"
+SERVICE_WRITE_HOLDING_REGISTER = "write_holding_register"
+SERVICE_WRITE_MULTIPLE_HOLDING_REGISTERS = "write_multiple_holding_registers"
+
+DATETIME_FORMAT = "%y/%m/%d %H:%M:%S"
+TIME_FORMAT = "%H:%M"
