@@ -566,7 +566,7 @@ parameters:
         value:
           bit: 3
 
-      - name: "Charge Cmd"
+      - name: "Char/Dischar Cmd"
         platform: switch
         rule: 1
         registers: [2501]
