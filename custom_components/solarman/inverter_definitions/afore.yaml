@@ -1,0 +1,646 @@
+default:
+  code: 0x04
+  update_interval: 15
+
+
+parameters:
+
+  - group: Info
+    update_interval: 3600
+    items:
+      - name: "Inverter"
+        rule: 5
+        registers: [0, 1, 2, 3, 4, 5]
+
+      - name: "Hardware v."
+        rule: 1
+        scale: 0.01
+        registers: [15]
+
+      - name: "Master v."
+        rule: 1
+        scale: 0.01
+        registers: [25]
+
+      - name: "HMI v."
+        rule: 1
+        scale: 0.01
+        registers: [35]
+
+      - name: "Protocol v."
+        rule: 1
+        scale: 0.01
+        registers: [20]
+
+  - group: Solar
+    items:
+      - name: "V_pv1"
+        class: "voltage"
+        state_class: "measurement"
+        uom: "V"
+        scale: 0.1
+        rule: 1
+        registers: [555]
+        icon: "mdi:solar-power"
+
+      - name: "V_pv2"
+        class: "voltage"
+        state_class: "measurement"
+        uom: "V"
+        scale: 0.1
+        rule: 1
+        registers: [558]
+        icon: "mdi:solar-power"
+
+      - name: "I_pv1"
+        class: "current"
+        state_class: "measurement"
+        uom: "A"
+        scale: 0.01
+        rule: 1
+        registers: [556]
+        icon: "mdi:current-dc"
+
+      - name: "I_pv2"
+        class: "current"
+        state_class: "measurement"
+        uom: "A"
+        scale: 0.01
+        rule: 1
+        registers: [559]
+        icon: "mdi:current-dc"
+
+      - name: "P_pv1"
+        class: "power"
+        state_class: "measurement"
+        uom: "W"
+        scale: 1
+        rule: 1
+        registers: [557]
+        icon: "mdi:solar-power"
+
+      - name: "P_pv2"
+        class: "power"
+        state_class: "measurement"
+        uom: "W"
+        scale: 1
+        rule: 1
+        registers: [560]
+        icon: "mdi:solar-power"
+
+      - name: "P_pv"
+        class: "power"
+        state_class: "measurement"
+        uom: "W"
+        scale: 1
+        rule: 3
+        registers: [554, 553]
+        icon: "mdi:solar-power"
+
+  - group: Battery
+    items:
+      - name: "State_bat"
+        update_interval: 60
+        rule: 1
+        registers: [2000]
+        isstr: true
+        lookup:
+          - key: 0
+            value: "No Battery"
+          - key: 1
+            value: "Fault"
+          - key: 2
+            value: "Sleep"
+          - key: 3
+            value: "Start"
+          - key: 4
+            value: "Charging"
+          - key: 5
+            value: "Discharge"
+          - key: 6
+            value: "Stop"
+          - key: 7
+            value: "Wake Up"
+        icon: "mdi:battery"
+
+      - name: "P_bat"
+        class: "power"
+        state_class: "measurement"
+        uom: "W"
+        scale: 1
+        rule: 4
+        registers: [2008, 2007]
+        icon: "mdi:battery"
+
+      - name: "V_bat"
+        class: "voltage"
+        state_class: "measurement"
+        uom: "V"
+        scale: 0.1
+        rule: 1
+        registers: [2004]
+        icon: "mdi:battery"
+
+      - name: "I_bat"
+        class: "current"
+        state_class: "measurement"
+        uom: "A"
+        scale: 0.01
+        rule: 2
+        registers: [2005]
+        icon: "mdi:current-dc"
+
+      - name: "SOC_bat"
+        class: "battery"
+        state_class: "measurement"
+        uom: "%"
+        scale: 1
+        rule: 1
+        registers: [2002]
+        icon: "mdi:battery"
+
+      - name: "T_bat"
+        class: "temperature"
+        state_class: "measurement"
+        uom: "°C"
+        scale: 0.1
+        rule: 2
+        registers: [2001]
+        icon: "mdi:battery"
+
+  - group: EPS
+    items:
+      - name: "V_eps"
+        class: "voltage"
+        state_class: "measurement"
+        uom: "V"
+        scale: 0.1
+        rule: 1
+        registers: [1503]
+        icon: "mdi:transmission-tower"
+
+      - name: "I_eps"
+        class: "current"
+        state_class: "measurement"
+        uom: "A"
+        scale: 0.01
+        rule: 2
+        registers: [1506]
+        icon: "mdi:current-ac"
+
+      - name: "P_eps"
+        class: "power"
+        state_class: "measurement"
+        uom: "W"
+        scale: 1
+        rule: 2
+        registers: [1510]
+        icon: "mdi:home-lightning-bolt"
+
+  - group: Grid
+    items:
+      - name: "I_gfci"
+        class: "current"
+        state_class: "measurement"
+        uom: "mA"
+        scale: 1
+        rule: 1
+        registers: [503]
+        icon: "mdi:current-ac"
+
+      - name: "V_grid"
+        class: "voltage"
+        state_class: "measurement"
+        uom: "V"
+        scale: 0.1
+        rule: 1
+        registers: [507]
+        icon: "mdi:transmission-tower"
+
+      - name: "F_grid"
+        class: "frequency"
+        state_class: "measurement"
+        uom: "Hz"
+        scale: 0.01
+        rule: 1
+        registers: [513]
+        icon: "mdi:sine-wave"
+
+      - name: "P_grid"
+        class: "power"
+        state_class: "measurement"
+        uom: "W"
+        scale: 1
+        rule: 4
+        registers: [530, 529]
+        icon: "mdi:home-lightning-bolt"
+
+      - name: "P_load"
+        class: "power"
+        state_class: "measurement"
+        uom: "W"
+        scale: 1
+        rule: 4
+        registers: [542, 541]
+        icon: "mdi:home-lightning-bolt"
+
+  - group: Inverter
+    items:
+      - name: "Running State"
+        update_interval: 300
+        rule: 1
+        registers: [2500]
+        isstr: true
+        lookup:
+          - key: 1
+            value: "Standby"
+          - key: 3
+            value: "OnGrid"
+          - key: 4
+            value: "OffGrid"
+          - key: 5
+            value: "Run generator"
+          - key: 6
+            value: "from Grid to OffGrid"
+          - key: 7
+            value: "from OffGrid to Grid"
+          - key: 8
+            value: "Power failure processing"
+          - key: 9
+            value: "Shutdown"
+          - key: 10
+            value: "Fault"
+          - key: 11
+            value: "Upgrading"
+          - key: 12
+            value: "Aging"
+          - key: 13
+            value: "Open loop"
+          - key: 14
+            value: "Sampling calibration"
+        icon: "mdi:play-circle-outline"
+
+      - name: "V_bus"
+        class: "voltage"
+        state_class: "measurement"
+        uom: "V"
+        scale: 0.1
+        rule: 1
+        registers: [500]
+        icon: "mdi:current-dc"
+
+      - name: "P_inv"
+        class: "power"
+        state_class: "measurement"
+        uom: "W"
+        scale: 1
+        rule: 4
+        registers: [517, 516]
+        icon: "mdi:home-lightning-bolt"
+
+      - name: "PF_inv"
+        state_class: "measurement"
+        scale: 0.001
+        rule: 2
+        registers: [526]
+        icon: "mdi:home-lightning-bolt"
+
+      - name: "I_inv"
+        class: "current"
+        state_class: "measurement"
+        uom: "A"
+        scale: 0.01
+        rule: 2
+        registers: [510]
+        icon: "mdi:current-ac"
+
+      - name: "T_transformer"
+        class: "temperature"
+        state_class: "measurement"
+        uom: "°C"
+        scale: 0.1
+        rule: 2
+        registers: [2514]
+        icon: "mdi:thermometer"
+
+      - name: "T_radiator"
+        class: "temperature"
+        state_class: "measurement"
+        uom: "°C"
+        scale: 0.1
+        rule: 2
+        registers: [2515]
+        icon: "mdi:thermometer"
+
+  - group: Total Energy
+    update_interval: 60
+    items:
+      - name: "E to GRID day"
+        class: "energy"
+        state_class: "total_increasing"
+        uom: "kWh"
+        scale: 0.1
+        rule: 1
+        registers: [1002]
+        icon: "mdi:transmission-tower"
+
+      - name: "E to GRID"
+        class: "energy"
+        state_class: "total_increasing"
+        uom: "kWh"
+        scale: 0.1
+        rule: 3
+        registers: [1019, 1018]
+        icon: "mdi:transmission-tower"
+
+      - name: "E from GRID day"
+        class: "energy"
+        state_class: "total_increasing"
+        uom: "kWh"
+        scale: 0.1
+        rule: 1
+        registers: [1003]
+        icon: "mdi:transmission-tower"
+
+      - name: "E from GRID"
+        class: "energy"
+        state_class: "total_increasing"
+        uom: "kWh"
+        scale: 0.1
+        rule: 3
+        registers: [1021, 1020]
+        icon: "mdi:transmission-tower"
+
+      - name: "E PV day"
+        class: "energy"
+        state_class: "total_increasing"
+        uom: "kWh"
+        scale: 0.1
+        rule: 3
+        registers: [1007, 1006]
+        icon: "mdi:solar-power"
+
+      - name: "E PV"
+        class: "energy"
+        state_class: "total_increasing"
+        uom: "kWh"
+        scale: 0.1
+        rule: 3
+        registers: [1027, 1026]
+        icon: "mdi:solar-power"
+
+      - name: "E to Load"
+        class: "energy"
+        state_class: "total_increasing"
+        uom: "kWh"
+        scale: 0.1
+        rule: 3
+        registers: [1023, 1022]
+        icon: "mdi:home-lightning-bolt-outline"
+
+  - group: Alert
+    items:
+      - name: "Alert BAT"
+        class: "enum"
+        rule: 3
+        registers: [3005, 3004]
+        lookup:
+          - key: 0
+            value: "No Error"
+          - bit: 0
+            value: "PcsBatVolOverFault"
+          - bit: 1
+            value: "PcsBatVolUnderFault"
+          - bit: 5
+            value: "PcsBatCommunicationFault"
+          - bit: 6
+            value: "PcsBatTempSensorOpen"
+        icon: "mdi:alert"
+
+      - name: "Alert GRID"
+        class: "enum"
+        rule: 3
+        registers: [3009, 3008]
+        lookup:
+          - key: 0
+            value: "No Error"
+          - bit: 0
+            value: "GridLossFault"
+          - bit: 2
+            value: "GridInstVoltHighFault"
+          - bit: 4
+            value: "GridOverVoltFault"
+          - bit: 5
+            value: "GridUnderVoltFault"
+          - bit: 8
+            value: "GridOverFreqFault"
+          - bit: 9
+            value: "GridUnderFreqFault"
+          - bit: [5, 9]
+            value: "GridUnavalible"
+        icon: "mdi:alert"
+
+      - name: "Alert OFF-GRID"
+        class: "enum"
+        rule: 3
+        registers: [3011, 3010]
+        lookup:
+          - key: 0
+            value: "No Error"
+          - bit: 0
+            value: "UpsOVerPowerFault"
+          - bit: 1
+            value: "GridConflictFault"
+        icon: "mdi:alert"
+
+      - name: "Alert AC"
+        class: "enum"
+        rule: 3
+        registers: [3017, 3016]
+        lookup:
+          - key: 0
+            value: "No Error"
+          - bit: 0
+            value: "HardwareFault"
+          - bit: 2
+            value: "RInvInstCurrHighFault"
+          - bit: 4
+            value: "TInvInstCurrHighFault"
+          - bit: 7
+            value: "LeakCurrFault"
+          - bit: 9
+            value: "GridRelayFault"
+          - bit: 10
+            value: "UpsRelayFault"
+          - bit: 12
+            value: "Relay4Fault"
+          - bit: 13
+            value: "RUPSInstCurrHighFault"
+          - bit: 20
+            value: "UPSInvHighVoltFault"
+          - bit: 21
+            value: "UPSInvLowVoltFault"
+          - bit: 22
+            value: "UPSInvHighFreqFault"
+          - bit: 23
+            value: "UPSInvLowFreqFault"
+        icon: "mdi:alert"
+
+      - name: "Alert DC"
+        class: "enum"
+        rule: 3
+        registers: [3015, 3014]
+        lookup:
+          - key: 0
+            value: "No Error"
+          - bit: 16
+            value: "BusAllVoltSwUnderFault"
+        icon: "mdi:alert"
+
+  - group: Settings
+    code:
+      read: 0x03
+      write: 0x10
+    update_interval: 300
+    items:
+      - name: "BAT Type"
+        platform: select
+        rule: 1
+        registers: [3000]
+        lookup:
+          - key: 0
+            value: "No Battery"
+          - key: 1
+            value: "Lithium"
+          - key: 2
+            value: "Lead Acid"
+
+      - name: "Meter Type"
+        platform: select
+        rule: 1
+        registers: [211]
+        lookup:
+          - key: 0
+            value: "No Meter"
+          - key: 1
+            value: "CT"
+          - key: 2
+            value: "Meter"
+          - key: 5
+            value: "CT-Meter"
+          - key: 6
+            value: "Meter-CT"
+
+      - name: "EMS Mode"
+        platform: select
+        rule: 1
+        registers: [2500]
+        lookup:
+          - key: 0
+            value: "SelfUse"
+          - key: 1
+            value: "ChrFst"
+          - key: 2
+            value: "SellFst"
+          - key: 3
+            value: "Maintain"
+          - key: 4
+            value: "CmdChr"
+          - key: 6
+            value: "PeakShave"
+
+      - name: "On/Off"
+        platform: switch
+        rule: 1
+        registers: [207, 206]
+        value:
+          bit: 0
+
+      - name: "Soft Start"
+        platform: switch
+        rule: 1
+        registers: [207, 206]
+        value:
+          bit: 1
+
+      - name: "EPS Mode"
+        platform: switch
+        rule: 1
+        registers: [207, 206]
+        value:
+          bit: 3
+
+      - name: "Char/Disch Cmd"
+        platform: switch
+        rule: 1
+        registers: [2501]
+        value:
+          on: 0xAA
+          off: 0xBB
+
+      - name: "AC Charge"
+        platform: switch
+        rule: 1
+        registers: [207, 206]
+        value:
+          bit: 4
+
+      - name: AC Charge On
+        platform: time
+        rule: 9
+        dec: 0x100
+        registers: [2509]
+
+      - name: AC Charge Off
+        platform: time
+        rule: 9
+        dec: 0x100
+        registers: [2510]
+
+      - name: "Restart"
+        platform: button
+        rule: 1
+        registers: [528, 527]
+        value:
+          bit: 3
+
+      - name: "Clear Records"
+        platform: button
+        rule: 1
+        registers: [528, 527]
+        value:
+          bit: 5
+
+  - group: Protect
+    code:
+      read: 0x03
+      write: 0x10
+    update_interval: 300
+    items:
+      - name: "Active Island"
+        platform: switch
+        rule: 1
+        registers: [209, 208]
+        value:
+          bit: 1
+
+      - name: "ISO Chk"
+        platform: switch
+        rule: 1
+        registers: [209, 208]
+        value:
+          bit: 8
+
+      - name: "GFCI Chk"
+        platform: switch
+        rule: 1
+        registers: [209, 208]
+        value:
+          bit: 10
+
+      - name: "Earth Chk"
+        platform: switch
+        rule: 1
+        registers: [209, 208]
+        value:
+          bit: 11
